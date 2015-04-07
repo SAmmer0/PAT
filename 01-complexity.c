@@ -41,6 +41,7 @@ int main()
     }
     int max = maxSum(inputArray, arraySize);
     printf("%d\n", max);
+    free(inputArray);
     return 0;
 }
 
