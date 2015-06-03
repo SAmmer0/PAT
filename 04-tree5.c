@@ -25,7 +25,6 @@ typedef struct Queue
 
 void queuePush(tQueue* queue, tNode* node)
 {
-    printf("in push %d\n", node->value);
     if(node == NULL)
     {
         return;
@@ -47,7 +46,6 @@ tNode* queuePop(tQueue* queue)
 {
     if(queue->head == NULL)
     {
-        printf("pop null\n");
         return NULL;
     }
     tLLNode* tmpNode = queue->head;
@@ -56,7 +54,6 @@ tNode* queuePop(tQueue* queue)
     {
         queue->tail = NULL;
     }
-    printf("pop %d\n", tmpNode->value->value);
     return tmpNode->value;
 }
 
@@ -138,16 +135,13 @@ int cptRootIdx(int start, int end)
     int idx;
     int n = end - start + 1;
     int hight = (int)log2(n);
-    printf("in cpt \nhight =  %d\nn = %d\n", hight, n);
     int rest = n - pow2(hight) + 1;
-    printf("rest = %d\n", rest);
     if(rest > pow2(hight - 1))
     {
         idx = pow2(hight) - 1;
     }
     else{
         idx = pow2(hight - 1) - 1 + rest;
-        printf("idx = %d\n", idx);
     }
     idx += start;
     return idx;
@@ -185,23 +179,14 @@ int* BFSTraversal(tNode* root, int capacity)
     queuePush(queue, root);
     int* result = (int *)malloc(sizeof(int) * capacity);
     int i = 0;
-    int j = 1;
     while(queue->head != NULL)
     {
-        printf("in while loop %d\n", j);
-        j++;
         tNode* thisNode;
         thisNode = queuePop(queue);
         result[i] = thisNode->value;
         i++;
-        if(thisNode->left != NULL)
-        {
-            queuePush(queue, thisNode->left);
-        }
-        if(thisNode->right != NULL)
-        {
-            queuePush(queue, thisNode->right);
-        }
+        queuePush(queue, thisNode->left);
+        queuePush(queue, thisNode->right);
     }
     free(queue);
     return result;
@@ -237,15 +222,16 @@ void main()
 {
     int numNode;
     scanf("%d", &numNode);
-    printf("input numNode %d\n", numNode);
     int* inputData = getInput(numNode);
+    printf("\ninput numNode %d\n", numNode);
     printf("get input data\n");
     mergeSort(inputData, 0, numNode - 1);
-    printf("MergeSort DONE\n");
+    printf("MergeSort done\n");
     tNode* root = NULL;
     buildCBT(inputData, 0, numNode - 1, &root);
     printf("build CBT done\n");
     printTree(root);
+    printf("\n");
     int* result = BFSTraversal(root, numNode);
     printf("BFS done\n");
     printResult(result, numNode);
