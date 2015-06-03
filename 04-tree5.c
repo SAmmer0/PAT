@@ -153,7 +153,7 @@ void buildCBT(int* numArray, int start, int end, tNode** root)
     if(start == end)
     {
         (*root) = (tNode *)malloc(sizeof(tNode));
-        (*root)->value = start;
+        (*root)->value = numArray[start];
         (*root)->left = NULL;
         (*root)->right = NULL;
         return;
@@ -207,33 +207,15 @@ void printResult(int* data, int cap)
     }
 }
 
-void printTree(tNode* root)
-{
-    if(root == NULL)
-    {
-        return;
-    }
-    printf("%d ", root->value);
-    printTree(root->left);
-    printTree(root->right);
-}
-
-void main()
+int main()
 {
     int numNode;
     scanf("%d", &numNode);
     int* inputData = getInput(numNode);
-    printf("\ninput numNode %d\n", numNode);
-    printf("get input data\n");
     mergeSort(inputData, 0, numNode - 1);
-    printf("MergeSort done\n");
     tNode* root = NULL;
     buildCBT(inputData, 0, numNode - 1, &root);
-    printf("build CBT done\n");
-    printTree(root);
-    printf("\n");
     int* result = BFSTraversal(root, numNode);
-    printf("BFS done\n");
     printResult(result, numNode);
+    return 0;
 }
-    
